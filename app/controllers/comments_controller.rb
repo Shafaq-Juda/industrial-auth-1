@@ -1,15 +1,9 @@
 class CommentsController < ApplicationController
  
   before_action :set_comment, only: %i[ show edit update destroy ]
-  # before_action :is_an_autorized_user, only: [:destroy, :create]
-
-  before_action :ensure_current_user_is_author, only: [:destroy, :update, :edit]
-
-  before_action :ensure_user_is_authorized, only: [:show]
 
   before_action { authorize (@comment || Comment )}
 
-  # ensure_current_user_is_owner
 
   # GET /comments or /comments.json
   def index
@@ -73,30 +67,8 @@ class CommentsController < ApplicationController
       @comment = Comment.find(params[:id])
     end
 
-
-    # def is_an_autorized_user
-    #   @photo = Photo.find(params.fetch(:comment).fetch(:photo_id))
-      
-    #   if current_user != @photo.owner && @photo.owner.private? && !current_user.leaders.include?(@photo.owner)
-    #     redirect_back(fallback_location: root_url, alert: "Not authorized")
-    #    end
-    #  end
-
     # Only allow a list of trusted parameters through.
     def comment_params
       params.require(:comment).permit(:author_id, :photo_id, :body)
     end
-
-    def ensure_current_user_is_author
-      if current_user != @comment.author
-        redirect_back fallback_location: root_url, alert: "You're not authorized for that."
-      end
-    end
-  
-    def ensure_user_is_authorized
-      if !CommentPolicy.new(current_user, @comment).show?
-        raise Pundit::NotAuthorizedError, "not allowed"
-      end
-    end
-  
 end

@@ -50,7 +50,7 @@
       </div>
 
       <div class="col">
-      <% if current_user == user %>
+     <% if policy(user).current_user_view? %>
         <%=
           link_to "#",
             data: { 

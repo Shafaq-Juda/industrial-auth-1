@@ -3,10 +3,6 @@ class UsersController < ApplicationController
 
   before_action { authorize (@user || User )}
 
-  def followers
-    true
-  end
-
   private
 
     def set_user
