@@ -1,5 +1,8 @@
 class PhotosController < ApplicationController
-  before_action :set_photo, only: %i[ show edit update destroy ]
+  
+  before_action :set_photo, only: %i[show edit update destroy]
+
+  before_action { authorize (@photo || Photo )}
 
   # GET /photos or /photos.json
   def index
