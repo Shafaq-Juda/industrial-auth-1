@@ -1,6 +1,7 @@
 
 <h1>Follow Requests</h1>
 
+<% if policy(follow_request).show? %>
 <table>
   <thead>
     <tr>
@@ -24,7 +25,7 @@
     <% end %>
   </tbody>
 </table>
-
+<% end %>
 <br>
 
 <%= link_to 'New Follow Request', new_follow_request_path %>

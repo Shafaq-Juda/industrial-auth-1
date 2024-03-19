@@ -1,8 +1,8 @@
 class CommentsController < ApplicationController
+ 
   before_action :set_comment, only: %i[ show edit update destroy ]
-  before_action :is_an_autorized_user, only: [:create]
 
-
+  before_action { authorize (@comment || Comment )}
 
 
   # GET /comments or /comments.json
@@ -66,15 +66,6 @@ class CommentsController < ApplicationController
     def set_comment
       @comment = Comment.find(params[:id])
     end
-
-
-    def is_an_autorized_user
-      @photo = Photo.find(params.fetch(:comment).fetch(:photo_id))
-      
-      if current_user != @photo.owner && @photo.owner.private? && !current_user.leaders.include?(@photo.owner)
-        redirect_back(fallback_location: root_url, alert: "Not authorized")
-       end
-     end
 
     # Only allow a list of trusted parameters through.
     def comment_params
