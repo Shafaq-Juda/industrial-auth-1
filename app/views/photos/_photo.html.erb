@@ -6,13 +6,12 @@
       <%= link_to photo.owner.username, user_path(photo.owner.username), class: "text-dark" %>
     </h2>
     <div>
-     <% if policy(photo).edit? %>
+    <% if current_user == photo.owner %>
    
       <%= link_to edit_photo_path(photo), class: "btn btn-link btn-sm text-muted" do %>
         <i class="fas fa-edit fa-fw"></i>
       <% end %>
-<% end %>
-    <% if policy(photo).destroy? %>
+
       <%= link_to photo, data: { turbo_method: :delete }, class: "btn btn-link btn-sm text-muted" do %>
         <i class="fas fa-trash fa-fw"></i>
       <% end %>
